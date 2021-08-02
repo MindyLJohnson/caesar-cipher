@@ -8,7 +8,7 @@ def caesar_cipher(message, shift)
       wrap = 0
     end
 
-    if char.ord.between?(65, 90) || char.ord.between?(97, 122)
+    if char.between?('A', 'Z') || char.between?('a', 'z')
       encryption += (char.ord + shift - wrap).chr
     else
       encryption += char
