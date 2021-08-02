@@ -1,52 +1,22 @@
 def caesar_cipher(message, shift)
-  capitals = collect_capital_letters(message)
-  punctuations = collect_punctuations(message)
-  shifted_message = shift_message(message, shift)
+  encryption = ''
 
-  encrypt_message(shifted_message, capitals, punctuations)
-
-  shifted_message.join
-
-end
-
-def collect_capital_letters(str)
-  capitals = []
-   str.chars.each_with_index do |char, index| 
-    if char.ord.between?(65, 90)
-      capitals << [char, index]
-    end
-   end
-
-   capitals
-end
-
-def collect_punctuations(str)
-  punctuations = []
-   str.chars.each_with_index do |char, index| 
-    if char.ord.between?(32, 47)
-      punctuations << [char, index]
-    end
-   end
-
-   punctuations
-end
-
-def shift_message(message, shift)
-  message.downcase.scan(/[a-z']/).map do |char|
-    if (char.ord + shift) > 122
-      (char.ord + shift - 26).chr
+  message.each_char do |char|
+    if (char.ord + shift).between?(91, 96) || (char.ord + shift) > 122
+      wrap = 26
     else
-      (char.ord + shift).chr      
+      wrap = 0
+    end
+
+    if char.ord.between?(65, 90) || char.ord.between?(97, 122)
+      encryption += (char.ord + shift - wrap).chr
+    else
+      encryption += char
     end
   end
-end
 
-def encrypt_message(shifted_message, capitals, punctuations)
-  punctuations.each do |punctuation|
-    shifted_message.insert(punctuation[1], punctuation[0])
-  end
+  encryption
 
-  capitals.map {|capital| shifted_message[capital[1]].upcase!}
 end
 
 p caesar_cipher("Hello, my name is Mindy!", 5)
